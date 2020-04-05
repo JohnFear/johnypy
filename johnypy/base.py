@@ -3,12 +3,13 @@
 import struct
 import logging
 
-__all__ = ['PGN', 'SPN']
+__all__ = ['PGN', 'Stringify']
 
 
 class Stringify():
     """Abstract stringify class"""
 
+    __slots__ = []
     STRINGIFY = []
 
     def __init__(self):
@@ -21,7 +22,7 @@ class Stringify():
     def __str__(self):
         """Overwritten string method"""
         return '%s%s' % (self.__class__.__name__, self._get_str_values())
-    
+
     def __repr__(self):
         """Overwrite repr for list strinify"""
         return self.__str__()
@@ -32,7 +33,7 @@ class PGN(Stringify):
 
     __slots__ = ['edp', 'dp', 'pgnf', 'pgne', 'pgn']
 
-    STRINGIFY = ['edp', 'dp', 'pgnf', 'pgne']
+    STRINGIFY = __slots__
 
     def __init__(self, edp, dp, pgnf, pgne):
         """Initialize new PGN from canId"""
@@ -77,16 +78,12 @@ class PGN(Stringify):
         return cls(**PGN.parse_pgn(pgn))
 
     @classmethod
-    def from_dict(cls, dvalues):
+    def from_dict(cls, vdict):
         """Initialize new pgn instance from dict"""
-        cls.__init__(**dvalues)
+        cls.__init__(**vdict)
 
     def calc_pgn(self, edp, dp, pgnf, pgne):
         """Calculate pgn from it's componets"""
         pgn = struct.pack('<ccc', bytes(
             [dp + 2 * edp]), bytes([pgnf]), bytes([pgne]))
         return int.from_bytes(pgn, byteorder='big')
-
-
-class SPN(Stringify):
-    pass
