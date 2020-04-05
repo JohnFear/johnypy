@@ -4,13 +4,13 @@ import struct
 import logging
 import pandas as pd
 from pathlib import Path
-from .base import PGN, SPN
+from .base import PGN, SPN, Stringify
 from .utils import escapeDBCString
 
 __all__ = ['DBCMessage', 'DBCConverter']
 
 
-class DBC():
+class DBC(Stringify):
     """DBC file internal class"""
 
     __slots__ = ['name', 'msgs']
@@ -83,6 +83,7 @@ class DBCConverter():
             
             for row in group.index:
                 # TODO: parse all spns
+                
                 pass
         
         return dbc_file
