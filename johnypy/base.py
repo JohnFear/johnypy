@@ -36,8 +36,8 @@ class PGN():
     def parse_pgn(pgn):
         """Parse canid into j1939 relevant data"""
         d = {}
-        pgn_bytes = pgn.to_bytes(
-            4, byteorder='big') if type(pgn) == int else pgn
+        pgn = int(pgn) if type(pgn) != int else pgn
+        pgn_bytes = pgn.to_bytes(4, byteorder='big')
         d['edp'] = int(pgn_bytes[0] & 0x02)
         d['dp'] = int(pgn_bytes[0] & 0x01)
         d['pgnf'] = int(pgn_bytes[2])
