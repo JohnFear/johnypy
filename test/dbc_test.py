@@ -9,15 +9,15 @@ sys.path.insert(0, str(libpath.resolve()))
 
 import johnypy
 
+def convert_csv_to_dbc():
+    home = Path.home()
+    con = johnypy.DBCConverter()
+    jfile = home.joinpath('Downloads/JohnFear/dbcGeneration/pgn_spn.csv')
+    sfile = home.joinpath('Downloads/JohnFear/dbcGeneration/slots.csv')
+    dbc = con.read_j1939da(jfile, sfile)
+    dbc.dump_dbc(home.joinpath('Downloads/JohnFear/dbcGeneration/johnFear.dbc'), True)
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    home = Path.home()
-
-    mes = johnypy.DBCMessage(65289, 'TC1', 'Transmission Control 1')
-    print(mes)
-
-    con = johnypy.DBCConverter()
-    jfile = home.joinpath('Downloads/JohnFear/pgnSpn/pgn_spn.csv')
-    dbc = con.read_j1939da(jfile)
-    print(dbc)
+    convert_csv_to_dbc()
+    
